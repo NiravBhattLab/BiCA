@@ -183,10 +183,10 @@ def main(args):
         for dataset in [
             "writing",
             "recreation",
-            #"science",
-            #"technology",
-            #"lifestyle",
-            #"pooled",
+            "science",
+            "technology",
+            "lifestyle",
+            "pooled",
         ]:
             evaluate_dataset(
                 model,
