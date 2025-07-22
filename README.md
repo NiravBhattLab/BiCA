@@ -88,3 +88,11 @@ To run the LoTTE evaluation, you need to provide the path to the model and the d
 ```bash
 python eval/lotte-evaluation.py --model_path output/gte --data_dir eval_datasets/lotte --rankings_dir rankings --split test
 ```
+
+### 3.4. Latency Evaluation
+
+To test the query encoding and retrieval latency, we run evaluations using the [MSMARCO dataset](https://huggingface.co/datasets/Tevatron/msmarco-passage). Run the script using the following command.
+
+```bash
+python eval/latency.py
+```
