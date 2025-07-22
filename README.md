@@ -30,7 +30,7 @@ This will create the following file:
 
 ### 1.2. Generate Hard Negatives
 
-The `build-corpus/pubmed-query-scoring.py` script takes the citation graphs from the previous step and generates queries and hard negatives. It uses the [T5 Doc2Query model](doc2query/all-t5-base-v1) to create a query for each positive abstract and then traverses the citation graph to find diverse hard negatives.
+The `build-corpus/pubmed-query-scoring.py` script takes the citation graphs from the previous step and generates queries and hard negatives. It uses the [T5 Doc2Query model](https://huggingface.co/doc2query/all-t5-base-v1) to create a query for each positive abstract and then traverses the citation graph to find diverse hard negatives.
 
 To run this script:
 
@@ -44,7 +44,7 @@ This will produce the following file, which will be used for training:
 
 ## Step 2: Fine-tune the Model
 
-The `train.py` script fine-tunes the [gte-models](thenlper/gte-base) using the data generated in the previous step. It uses a multiple negatives ranking loss to train the model to distinguish between positive and negative passages for a given query.
+The `train.py` script fine-tunes the [gte-models](https://huggingface.co/thenlper/gte-base) using the data generated in the previous step. It uses a multiple negatives ranking loss to train the model to distinguish between positive and negative passages for a given query.
 
 To start the training process:
 
