@@ -4,13 +4,13 @@ This repository contains the code for a pipeline to train and evaluate a biomedi
 
 ## Prerequisites
 
-Create a new conda environment. Ensure that the python version is below 3.11
+Create a new conda environment. Ensure that the python version is below 3.11 (otherwise faiss-gpu will fail to install).
 
 ```bash
 conda create -n <env_name> python=3.10.14
 ```
 
-Activate it using 
+Activate it using.
 
 ```
 conda activate <env_name>
