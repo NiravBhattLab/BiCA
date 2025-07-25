@@ -4,6 +4,18 @@ This repository contains the code for a pipeline to train and evaluate a biomedi
 
 ## Prerequisites
 
+Create a new conda environment. Ensure that the python version is below 3.11
+
+```bash
+conda create -n <env_name> python=3.10.14
+```
+
+Activate it using 
+
+```
+conda activate <env_name>
+```
+
 Before running any of the scripts, ensure you have the necessary libraries installed. You can install them using the provided `requirements.txt` file:
 
 ```bash
