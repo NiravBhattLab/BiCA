@@ -1,20 +1,14 @@
-beir==2.0.0
+beir==2.1.0
 biopython==1.85
-datasets==3.2.0
-faiss-cpu==1.9.0
-fast-pytorch-kmeans==0.2.0.1
-numpy==1.23.5
-numpydoc @ file:///croot/numpydoc_1668085905352/work
+datasets==3.6.0
+faiss-gpu==1.7.2
+numpy==1.26.4
 pandas==2.2.3
-sentence-transformers==4.0.2
-torch==2.7.0
-torch_cluster==1.6.3+pt22cu118
-torch_geometric==2.5.3
-torch_scatter @ https://data.pyg.org/whl/torch-2.2.0%2Bcu118/torch_scatter-2.1.2%2Bpt22cu118-cp39-cp39-linux_x86_64.whl
-torch_sparse==0.6.18+pt22cu118
-torch_spline_conv==1.2.2+pt22cu118
-torchaudio==2.7.0
-torchdata==0.11.0
-torchvision==0.22.0
+sentence-transformers==5.0.0
+torch==2.6.0
+torch-adopt==0.1.0
+torch-geometric @ git+https://github.com/pyg-team/pytorch_geometric.git@d2bb939a1bfba3b7a6f7d7b102a2771471657319
+torchinfo==1.8.0
+torchvision==0.21.0
 tqdm==4.67.1
-transformers==4.52.4
+transformers==4.53.2
