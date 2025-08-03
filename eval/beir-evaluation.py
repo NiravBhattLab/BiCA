@@ -1,32 +1,29 @@
+from beir.datasets.data_loader import GenericDataLoader
 from beir.retrieval.evaluation import EvaluateRetrieval
 from beir.retrieval import models
 from beir.retrieval.search.dense import DenseRetrievalExactSearch as DRES
 import logging
 import json
-import pandas as pd
+import os
 
 def evaluate_dataset(dataset_name, batch_size=32, trust_remote_code=False):
+    """
+    Loads a local BEIR dataset, evaluates a model on it, and returns the nDCG@10 score.
+    """
     print(f"{'#' * 37}{dataset_name.upper()}{'#' * 37}")
+
+    folder_name = dataset_name.split('/')[0]
+    data_path = os.path.join("eval_datasets", folder_name)
     
-    with open(f"eval/{dataset_name}/corpus.jsonl", "r") as f:
-        corpus = [json.loads(line) for line in f]
+    if not os.path.exists(data_path):
+        logging.error(f"Dataset not found at path: {data_path}")
+        print(f"Dataset not found at path: {data_path}")
+        return 0.0                 
 
-    with open(f"eval/{dataset_name}/queries.jsonl", "r") as f:
-        queries = [json.loads(line) for line in f]
+    corpus, queries, qrels = GenericDataLoader(data_folder=data_path).load(split="test")
 
-    queries = {query["_id"]: query["text"] for query in queries}
-    corpus = {entry["_id"]: {"title": entry["title"], "text": entry["text"]} for entry in corpus}
-
-    qrels = pd.read_csv(f"eval/{dataset_name}/qrels/test.tsv", sep="\t", names=["query_id", "corpus_id", "score"])
-    qrels["score"] = pd.to_numeric(qrels["score"], errors="coerce")
-    qrels = qrels.dropna(subset=["score"])
-    qrels["score"] = qrels["score"].astype(int)
-    qrels = qrels.groupby('query_id', group_keys=False).apply(
-        lambda group: {group['corpus_id'].iloc[i]: int(group['score'].iloc[i]) for i in range(len(group))}
-    ).to_dict()
-
-    gpl_name = "output"  # path to the trained model
-    model = DRES(models.SentenceBERT(gpl_name, trust_remote_code=trust_remote_code, model_kwargs={'attn_implementation': 'eager'}), batch_size=batch_size)
+    model_name = "output/gte"
+    model = DRES(models.SentenceBERT(model_name, trust_remote_code=trust_remote_code, model_kwargs={'attn_implementation': 'eager'}), batch_size=batch_size)
     retriever = EvaluateRetrieval(model, score_function="cos_sim")
 
     results = retriever.retrieve(corpus, queries)
@@ -41,22 +38,35 @@ def evaluate_dataset(dataset_name, batch_size=32, trust_remote_code=False):
     
     return ndcg.get("NDCG@10", 0.0)
 
-evaluation_results = {}
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    
+    evaluation_results = {}
 
-datasets_config = [
-    ("nfcorpus", 32, True),
-    ("scidocs", 16, True),
-    ("scifact", 16, False),
-    ("trec-covid", 16, False),
-    # ("nq", 128, False),
-    # ("climate-fever", 128, False),
-    # ("arguana", 32, True),
-    # ("quora", 128, False)
-]
+    datasets_config = [
+        ("fever", 32, False),
+        ("msmarco", 32, False),
+        ('hotpotqa', 32, False),
+        ("nfcorpus", 128, True),
+        ("scidocs", 128, True),
+        ("scifact", 128, False),
+        ("trec-covid", 128, False),
+        ("nq", 128, False),
+        ("climate-fever", 128, False),
+        ("arguana", 128, True),
+        ("quora", 128, False),
+        ("dbpedia-entity/dbpedia-entity", 32, False),
+        ("fiqa", 32, False),
+        ("webis-touche2020/webis-touche2020", 32, False)
+    ]
 
-for dataset_name, batch_size, trust_remote_code in datasets_config:
-    ndcg_10 = evaluate_dataset(dataset_name, batch_size, trust_remote_code)
-    evaluation_results[dataset_name] = ndcg_10
+    for dataset_name, batch_size, trust_remote_code in datasets_config:
+        ndcg_10 = evaluate_dataset(dataset_name, batch_size, trust_remote_code)
+        evaluation_results[dataset_name] = ndcg_10
 
-with open("evaluation-dsitill.json", "w") as f:
-    json.dump(evaluation_results, f, indent=2)
+    output_file = "evaluation-small.json"
+    with open(output_file, "w") as f:
+        json.dump(evaluation_results, f, indent=4)
+
+    print(f"\nEvaluation results saved to {output_file}")
+    print(json.dumps(evaluation_results, indent=2))
