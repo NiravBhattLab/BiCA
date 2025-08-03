@@ -15,7 +15,7 @@ TARGET_ITEMS_COUNT = 20000
 HOPS_DESIRED = 2
 DELAY_BETWEEN_API_CALLS = 0
 DELAY_BETWEEN_TOP_LEVEL_PMIDS = 0
-NCBI_EMAIL = "aarush.sinha@gmail.com"
+NCBI_EMAIL = "EMAIL_ADDRESS"
 NUM_WORKERS = 80
 
 def setup_worker():
@@ -204,4 +204,5 @@ def main():
         logging.info(f"Finished. Raw citation graphs saved in {OUTPUT_FILE}")
 
 if __name__ == "__main__":
+
     main() 
