@@ -1,4 +1,4 @@
-# BiCA: Effective Biomedical Dense Retrieval with Citation-Aware Hard Negatives
+# BiCA: Effective Biomedical Dense Retrieval with Citation-Aware Hard Negatives (AAAI2026 Oral 🥳)
 
 This repository contains the code for a pipeline to train and evaluate a biomedical retrieval model using the GPL framework. The pipeline consists of three main stages: building a corpus with hard negatives, training the model, and evaluating its performance on various benchmark datasets. All fine-tuned models and created datasets are available in this [HuggingFace Collection](https://huggingface.co/collections/bisectgroup/bica-65f65bccb76ab963c3cc8f92).
 
@@ -108,3 +108,4 @@ To test the query encoding and retrieval latency, we run evaluations using the [
 ```bash
 python eval/latency.py
 ```
+
