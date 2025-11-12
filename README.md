@@ -109,3 +109,17 @@ To test the query encoding and retrieval latency, we run evaluations using the [
 python eval/latency.py
 ```
 
+## Citation
+```
+@misc{sinha2025bicaeffectivebiomedicaldense,
+      title={BiCA: Effective Biomedical Dense Retrieval with Citation-Aware Hard Negatives}, 
+      author={Aarush Sinha and Pavan Kumar S and Roshan Balaji and Nirav Pravinbhai Bhatt},
+      year={2025},
+      eprint={2511.08029},
+      archivePrefix={arXiv},
+      primaryClass={cs.IR},
+      url={https://arxiv.org/abs/2511.08029}, 
+}
+```
+
+
